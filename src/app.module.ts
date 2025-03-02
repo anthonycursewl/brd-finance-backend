@@ -13,15 +13,20 @@ import { InvoiceRepositoryAdapter } from './infrastructure/persistence/repositor
 import { InvoiceService } from './application/services/invoice.service';
 import { MailModule } from './application/mail/mail.module';
 import { MailController } from './application/mail/mail.controller';
+import { CategoryController } from './infrastructure/controllers/category.controller';
+import { CategoryRepositoryAdapter } from './infrastructure/persistence/repositories/category.repository.impl';
+import { CategoryService } from './application/services/category.service';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), MailModule],
-  controllers: [AppController, UserController, InvoiceController, MailController],
+  controllers: [AppController, UserController, InvoiceController, MailController, CategoryController],
   providers: [
     { 
       provide: 'UserRepository', 
       useClass: UserRepositoryImpl
     },
+    CategoryRepositoryAdapter,
+    CategoryService,
     InvoiceRepositoryAdapter,
     InvoiceService,
     ArgonService,

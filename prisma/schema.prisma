@@ -8,33 +8,44 @@ datasource db {
 }
 
 model users {
-  id         String     @id @db.VarChar(255)
-  name       String     @db.VarChar(200)
-  username   String     @db.VarChar(200)
-  email      String     @unique @db.VarChar(255)
+  id         String       @id @db.VarChar(255)
+  name       String       @db.VarChar(200)
+  username   String       @db.VarChar(200)
+  email      String       @unique @db.VarChar(255)
   password   String
-  type       String?    @db.VarChar(50)
-  bought_at  DateTime   @db.Timestamptz(6)
-  created_at DateTime?  @db.Timestamptz(6)
+  type       String?      @db.VarChar(50)
+  bought_at  DateTime     @db.Timestamptz(6)
+  created_at DateTime?    @db.Timestamptz(6)
+  Categories Categories[]
   invoices   invoices[]
 }
 
 model invoices {
-  id       String   @id @db.VarChar(20)
-  to       String   @db.VarChar(100)
-  from     String   @db.VarChar(255)
-  amount   Decimal  @db.Decimal(20, 0)
-  items    InvoiceItem[] 
-  issuedAt DateTime @db.Timestamptz(6)
-  users    users    @relation(fields: [from], references: [id], onDelete: Cascade, map: "id_user")
+  id       String        @id @db.VarChar(20)
+  to       String        @db.VarChar(100)
+  from     String        @db.VarChar(255)
+  amount   Decimal       @db.Decimal(20, 0)
+  issuedAt DateTime      @db.Timestamptz(6)
+  items    InvoiceItem[]
+  users    users         @relation(fields: [from], references: [id], onDelete: Cascade, map: "id_user")
 }
 
 model InvoiceItem {
-  id         String  @id @default(uuid())
-  invoiceId  String  @db.VarChar(20)
-  product    String
-  quantity   Int
-  unitPrice  Decimal @db.Decimal(10, 2)
-  invoices   invoices @relation(fields: [invoiceId], references: [id])
+  id        String   @id @default(uuid())
+  invoiceId String   @db.VarChar(20)
+  product   String
+  quantity  Int
+  unitPrice Decimal  @db.Decimal(10, 2)
+  invoices  invoices @relation(fields: [invoiceId], references: [id])
 }
 
+model Categories {
+  id          String   @id @db.VarChar(255)
+  name        String   @db.VarChar(100)
+  description String   @db.VarChar(100)
+  icon        String
+  created_at  DateTime @db.Timestamptz(6)
+  is_deleted  Boolean?
+  user_id     String   @db.VarChar(255)
+  users       users    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "user_id")
+}

@@ -1,3 +1,4 @@
+
 import { Injectable } from "@nestjs/common";
 import { CategoryRepositoryAdapter } from "src/infrastructure/persistence/repositories/category.repository.impl";
 
@@ -9,9 +10,15 @@ export class CategoryService {
     constructor(private readonly categoryRepository: CategoryRepositoryAdapter) {}
 
     async save(category: Category): Promise<Category | null> {
-        const cat = await this.categoryRepository.save(category);
-        if (cat === null) throw new Error('BRD | Category not created!');
-        return new Category(cat.id, cat.name, cat.description, cat.icon, cat.user_id, cat.is_deleted, cat.created_at);
+        if (category === null) throw new Error('BRD | Category not created!');
+        try {
+            const cat = await this.categoryRepository.save(category);
+            if (cat === null) throw new Error('BRD | Category not created!');
+            return new Category(cat.id, cat.name, cat.description, cat.icon, cat.user_id, cat.is_deleted, cat.created_at);
+        } catch (error) {
+            console.log(error);
+            throw new Error('BRD | Category not created!');
+        }
     }
 
     async findById(id: string): Promise<Category | null> {

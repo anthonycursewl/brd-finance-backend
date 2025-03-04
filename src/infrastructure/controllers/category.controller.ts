@@ -3,10 +3,10 @@ import { CategoryService } from "src/application/services/category.service";
 import { Category } from "src/domain/models/category.model";
 
 @Controller('category')
-export class CategoryController{
-    constructor(private readonly categoryService: CategoryService) {}
+export class CategoryController {
+    constructor(private readonly categoryService: CategoryService) { }
 
-    @Post('/save')
+    @Post('save')
     async saveCategory(@Body() category: Category) {
         return await this.categoryService.save(category);
     }

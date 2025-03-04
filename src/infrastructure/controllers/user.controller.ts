@@ -5,7 +5,7 @@ import { User } from "src/domain/models/user.model";
 
 @Controller('user')
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+    constructor(private readonly userService: UserService) { }
 
     @Post('/register')
     async register(@Body() user: User) {

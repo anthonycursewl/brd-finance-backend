@@ -16,4 +16,12 @@ export class CategoryRepositoryAdapter implements CategoryRepository {
         return this.prisma.categories.findUnique({ where: { id: id } })
     }
 
+    findAllByUserId(userId: string): Promise<Category[] | null> {
+        return this.prisma.categories.findMany({ where: { user_id: userId, is_deleted: false }})
+    }
+
+    delete(id: string): Promise<{ is_deleted: boolean; }> {
+        return this.prisma.categories.update({ where: { id: id }, data: { is_deleted: true}})
+    }
+
 }

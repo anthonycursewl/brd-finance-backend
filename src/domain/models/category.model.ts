@@ -5,6 +5,7 @@ export class Category {
         public description: string,
         public icon: string,
         public user_id: string,
-        public is_deleted: boolean,
-        public created_at: Date) { }
+        public created_at: Date,
+        public is_deleted?: boolean
+    ) { }
 }

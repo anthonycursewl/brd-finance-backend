@@ -17,4 +17,10 @@ export class InvoiceController {
     async findById(@Param('id') id: string) {
         return await this.invoiceService.findById(id);
     }
+
+    @Get('/find/category/:id')
+    async findByCategory(@Param('id') id: string) {
+        return await this.invoiceService.findByCategory(id);
+    }
+
 }

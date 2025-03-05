@@ -1,8 +1,7 @@
-import { Decimal } from "@prisma/client/runtime/library";
 
 interface TypeItemInvoice {
     id: string,
-    InvoicedId: string,
+    invoicedId: string,
     product: string,
     quantity: number,
     unitPrice: number
@@ -13,9 +12,13 @@ export class Invoice {
         public id: string, 
         public to: string, 
         public from: string, 
-        public amount: number, 
         public items: TypeItemInvoice[], 
         public issuedAt: Date,
+        public category_id: string,
+        public type: string,
+        public type_amount: number,
+        public is_paid: boolean,
+        public description: string
     ) { }
 }
 
@@ -26,7 +29,6 @@ export class Invoice {
     "id": "703c11fea6e5",
     "to": "Snayder Mendonza",
     "from": "5bdb05ac8f88",
-    "amount": 100,
     "items": [
         {
             "id": "59632484",

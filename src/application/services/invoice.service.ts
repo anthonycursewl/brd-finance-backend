@@ -17,4 +17,8 @@ export class InvoiceService {
         if (!invoice) throw new Error('BRD | Invoice not found!');
         return invoice;
     }
+
+    async findByCategory(id: string): Promise<any | null> {
+        return await this.invoiceRepository.findByCategory(id);
+    }
 }

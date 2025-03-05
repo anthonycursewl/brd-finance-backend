@@ -17,11 +17,27 @@ export class CategoryRepositoryAdapter implements CategoryRepository {
     }
 
     findAllByUserId(userId: string): Promise<Category[] | null> {
-        return this.prisma.categories.findMany({ where: { user_id: userId, is_deleted: false }})
+        return this.prisma.categories.findMany({ where: { user_id: userId, is_deleted: false }, 
+        select: 
+        { 
+            id: true, 
+            name: true, 
+            description: true, 
+            icon: true, 
+            user_id: true, 
+            created_at: true, 
+            users: { select: 
+                { 
+                    invoices: { 
+                        select: { id: true } 
+                    } 
+                }
+            }
+        }})
     }
 
     delete(id: string): Promise<{ is_deleted: boolean; }> {
-        return this.prisma.categories.update({ where: { id: id }, data: { is_deleted: true}})
+        return this.prisma.categories.update({ where: { id: id }, data: { is_deleted: true } })
     }
 
 }

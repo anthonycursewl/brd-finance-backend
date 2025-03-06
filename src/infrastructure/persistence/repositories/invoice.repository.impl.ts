@@ -48,7 +48,7 @@ export class InvoiceRepositoryAdapter implements InvoiceRepository {
     async findById(id: string): Promise<any | null> {
         const invoice = await this.prisma.invoices.findUnique({ 
             where: { id }, 
-            select: { id: true, to: true, issuedAt: true, type: true, type_amount: true, 
+            select: { id: true, to: true, issuedAt: true, type: true, type_amount: true, is_paid: true, description: true,
             items: { select: { product: true, quantity: true, unitPrice: true }}, 
             users: {
                 select: {
@@ -62,6 +62,6 @@ export class InvoiceRepositoryAdapter implements InvoiceRepository {
     }
 
     findByCategory(id: string): Promise<any | null> {
-        return this.prisma.invoices.findMany({ where: { category_id: id }, select: { to: true, issuedAt: true, type: true, type_amount: true, description: true, is_paid: true, items: { select: { product: true, quantity: true, unitPrice: true }}, users: { select: { name: true, email: true } } }});
+        return this.prisma.invoices.findMany({ where: { category_id: id }, select: { id: true, to: true, issuedAt: true, type: true, type_amount: true, description: true, is_paid: true, items: { select: { product: true, quantity: true, unitPrice: true }}, users: { select: { name: true, email: true } } }});
     }
 }

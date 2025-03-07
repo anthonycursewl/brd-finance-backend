@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { InvoiceRepositoryAdapter } from "src/infrastructure/persistence/repositories/invoice.repository.impl";
 import { Invoice } from "src/domain/models/invoice.model";
 
@@ -14,8 +14,12 @@ export class InvoiceService {
 
     async findById(id: string): Promise<Invoice | null> {
         const invoice = await this.invoiceRepository.findById(id);
-        if (!invoice) throw new Error('BRD | Invoice not found!');
-        return invoice;
+        try {
+            if (!invoice) throw new NotFoundException('BRD | Invoice not found!');
+            return invoice;
+        } catch (error) {
+            throw new InternalServerErrorException('BRD | Error finding invoice!');
+        }
     }
 
     async findByCategory(id: string): Promise<any | null> {

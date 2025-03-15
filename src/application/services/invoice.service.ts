@@ -13,8 +13,8 @@ export class InvoiceService {
     }
 
     async findById(id: string): Promise<Invoice | null> {
-        const invoice = await this.invoiceRepository.findById(id);
         try {
+            const invoice = await this.invoiceRepository.findById(id);
             if (!invoice) throw new NotFoundException('BRD | Invoice not found!');
             return invoice;
         } catch (error) {
